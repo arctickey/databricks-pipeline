@@ -1,0 +1,21 @@
+[tool.poetry]
+version = "0.1.0"
+name = "Hema_project"
+description = "Hema sample dataset workflow"
+authors = ["Filip Chrzuszcz"]
+readme = "README.md"
+packages = [{include = "Hema_project"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pyspark = "3.2.0"
+python-dotenv = "^1.0.0"
+pandas = "^2.0.3"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.25.1"
+pre-commit = "^3.3.3"
+mypy = "^1.5.1"
+black = "^23.7.0"
+isort = "^5.12.0"
+
