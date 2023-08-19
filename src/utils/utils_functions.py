@@ -3,6 +3,7 @@ import datetime
 import pyspark.sql.functions as F
 from pyspark.context import SparkContext
 from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql.types import DateType, TimestampType
 
 
 def write_parquet(
@@ -40,3 +41,12 @@ def check_if_dataframe_exisits(sc: SparkContext, path: str) -> bool:
     fs = sc._jvm.org.apache.hadoop.fs.FileSystem.get(sc._jsc.hadoopConfiguration())
     if_path_exists = bool(fs.exists(sc._jvm.org.apache.hadoop.fs.Path(path)))
     return if_path_exists
+
+
+def cast_str_column_to_date(df: DataFrame, column_name: str) -> DataFrame:
+    return df.withColumn(
+        column_name,
+        F.unix_timestamp(F.col(column_name), "dd/MM/yyyy")
+        .cast(TimestampType())
+        .cast(DateType()),
+    )

@@ -1,4 +1,5 @@
-/data/*
+/data
 .env
 .vscode
-.devcontainer/*
+.devcontainer
+.mypy_cache
