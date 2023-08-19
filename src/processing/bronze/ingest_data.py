@@ -1,20 +1,24 @@
 import pyspark.sql.functions as F
-from pyspark.sql.types import DateType, TimestampType
+from src.utils.utils_functions import add_metadata_columns
 from pyspark.sql import DataFrame
+from pyspark.sql.types import TimestampType, DateType
+import datetime
 
 
-def ingest_data(df: DataFrame) -> DataFrame:
-    df_with_metadata_columns = _add_metadata_columns(df=df)
-    df_with_changed_order_date_column = _alter_order_date_column(
-        df=df_with_metadata_columns
+def ingest_data(df: DataFrame, max_date_to_reload: datetime.date) -> DataFrame:
+    df_with_changed_order_date_column = _alter_order_date_column(df=df)
+    df_to_reload = df_with_changed_order_date_column.filter(
+        F.col("Order Date") > F.lit(max_date_to_reload)
     )
-    df_with_renamed_columns = _rename_columns(df=df_with_changed_order_date_column)
+    df_with_renamed_columns = _rename_columns(df=df_to_reload)
+
     return df_with_renamed_columns
 
 
-def _add_metadata_columns(df: DataFrame):
-    df = df.withColumn("Filename", F.input_file_name())
-    df = df.withColumn("ExecutionDatetime", F.current_timestamp())
+def _rename_columns(df: DataFrame):
+    for column in df.columns:
+        new_column = column.replace("-", "").replace(" ", "")
+        df = df.withColumnRenamed(column, new_column)
     return df
 
 
@@ -25,10 +29,3 @@ def _alter_order_date_column(df: DataFrame):
         .cast(TimestampType())
         .cast(DateType()),
     )
-
-
-def _rename_columns(df: DataFrame):
-    for column in df.columns:
-        new_column = column.replace("-", "").replace(" ", "")
-        df = df.withColumnRenamed(column, new_column)
-    return df

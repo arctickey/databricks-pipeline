@@ -1,3 +1,5 @@
 class Config:
-    RAW_DATA_PATH = "/workspaces/ema/data/raw"
-    BRONZE_DATA_PATH = "/workspaces/ema/data/bronze"
+    DATA_PATH = "/workspaces/ema/data"
+    RAW_DATA_PATH = f"{DATA_PATH}/raw"
+    BRONZE_DATA_PATH = f"{DATA_PATH}/bronze"
+    SILVER_DATA_PATH = f"{DATA_PATH}/silver"
