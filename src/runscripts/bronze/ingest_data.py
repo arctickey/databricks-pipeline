@@ -1,6 +1,6 @@
 # %%
-from src.config.configure_environment import configure_environment
 from src.config.config import Config
+from src.config.configure_environment import configure_environment
 from src.processing.bronze.ingest_data import ingest_data
 from src.utils.logger import get_logger
 from src.utils.utils_functions import check_latest_dataframe_date, write_parquet

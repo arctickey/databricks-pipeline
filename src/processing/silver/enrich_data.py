@@ -1,8 +1,8 @@
-from pyspark.sql import DataFrame
 import pyspark.sql.functions as F
+from pyspark.sql import DataFrame
 
 
-def enrich_data(df: DataFrame):
+def enrich_data(df: DataFrame) -> DataFrame:
     df_with_extracted_customer_name = _extract_first_and_second_customer_name(df=df)
     return df_with_extracted_customer_name
 

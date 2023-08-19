@@ -1,10 +1,11 @@
 # %%
-from src.config.configure_environment import configure_environment
+import pyspark.sql.functions as F
+
 from src.config.config import Config
+from src.config.configure_environment import configure_environment
 from src.processing.silver.enrich_data import enrich_data
 from src.utils.logger import get_logger
 from src.utils.utils_functions import check_latest_dataframe_date, write_parquet
-import pyspark.sql.functions as F
 
 logger = get_logger()
 
@@ -15,7 +16,7 @@ if __name__ == "__main__":
         output_path = f"{Config.SILVER_DATA_PATH}/silver_data"
         max_date_to_reload = check_latest_dataframe_date(spark, output_path)
         df = spark.read.parquet(input_path).filter(
-            F.col("OrderDate") > max_date_to_reload
+            F.col("OrderDate") > F.lit(max_date_to_reload)
         )
         df_silver = enrich_data(df=df)
         if df_silver.count() == 0:
