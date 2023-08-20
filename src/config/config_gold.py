@@ -14,8 +14,8 @@ class ConfigGold:
 
     CUSTOMER_COLUMNS_TO_SELECT = [
         "CustomerID",
-        "FirstName",
-        "SecondName",
+        "CustomerFirstName",
+        "CustomerLastName",
         "Segment",
         "Country",
         "TotalQuantityOfOrders",
