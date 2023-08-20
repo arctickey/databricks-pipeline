@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 
 import pyspark.sql.functions as F
 from pyspark.context import SparkContext
@@ -7,7 +8,7 @@ from pyspark.sql.types import DateType, TimestampType
 
 
 def write_parquet(
-    df: DataFrame, output_path: str, mode: str, partitionBy: list[str]
+    df: DataFrame, output_path: str, mode: str, partitionBy: Optional[list[str]]
 ) -> None:
     df_with_metadata_columns = add_metadata_columns(df=df)
     df_with_metadata_columns.write.parquet(

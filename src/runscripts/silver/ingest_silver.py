@@ -18,21 +18,23 @@ if __name__ == "__main__":
         df = spark.read.parquet(input_path).filter(
             F.col("OrderDate") > F.lit(max_date_to_reload)
         )
-        df_silver = ingest_silver(df=df)
-        if df_silver.count() == 0:
+        if df.count() == 0:
             logger.info("No data to reload!")
-        logger.info(
-            f"""
-            Saving dataframe ({df_silver.count()},
-            {len(df_silver.columns)}) shape to location = '{str(output_path)}'
-            """
-        )
-        write_parquet(
-            df=df_silver,
-            output_path=output_path,
-            mode="append",
-            partitionBy=["OrderDate"],
-        )
+        else:
+            df_silver = ingest_silver(df=df)
+
+            logger.info(
+                f"""
+                Saving dataframe ({df_silver.count()},
+                {len(df_silver.columns)}) shape to location = '{str(output_path)}'
+                """
+            )
+            write_parquet(
+                df=df_silver,
+                output_path=output_path,
+                mode="append",
+                partitionBy=["OrderDate"],
+            )
     finally:
         logger.handlers[0].flush()
 

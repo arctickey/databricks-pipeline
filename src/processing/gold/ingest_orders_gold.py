@@ -3,7 +3,7 @@ from pyspark.sql import DataFrame
 from src.utils.utils_functions import cast_str_column_to_date
 
 
-def ingest_sales_gold(
+def ingest_orders_gold(
     df: DataFrame, columns_to_be_renamed: dict[str, str], columns_to_select: list[str]
 ) -> DataFrame:
     df_with_renamed_columns = _rename_columns(
