@@ -85,3 +85,18 @@ def _add_metadata_columns(df: DataFrame) -> DataFrame:
     df = df.withColumn("Filename", F.input_file_name())
     df = df.withColumn("ExecutionDatetime", F.current_timestamp())
     return df
+
+
+def detect_schema_change(spark: SparkSession, output_path: str) -> set[str]:
+    """
+    If dataframe is already saved check for the existing columns. This is needed
+    in order to detect schema changes in the raw data.
+    """
+    if_dataframe_exists = _check_if_dataframe_exisits(spark.sparkContext, output_path)
+    if if_dataframe_exists:
+        old_columns = (
+            spark.read.option("mergeSchema", "true").parquet(output_path).columns
+        )
+        return set(old_columns)
+    else:
+        return set()

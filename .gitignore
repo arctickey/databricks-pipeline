@@ -3,3 +3,4 @@
 .vscode
 .devcontainer
 .mypy_cache
+.pytest_cache

@@ -16,8 +16,10 @@ if __name__ == "__main__":
         input_path = f"{Config.SILVER_DATA_PATH}/silver_data"
         output_path = f"{Config.GOLD_DATA_PATH}/gold_sales_data"
         max_date_to_reload = check_latest_dataframe_date(spark, output_path)
-        df = spark.read.parquet(input_path).filter(
-            F.col("OrderDate") > F.lit(max_date_to_reload)
+        df = (
+            spark.read.option("mergeSchema", "true")
+            .parquet(input_path)
+            .filter(F.col("OrderDate") > F.lit(max_date_to_reload))
         )
         if df.count() == 0:
             logger.info("No data to reload!")

@@ -13,7 +13,7 @@ if __name__ == "__main__":
         spark = configure_environment()
         input_path = f"{Config.SILVER_DATA_PATH}/silver_data"
         output_path = f"{Config.GOLD_DATA_PATH}/gold_customer_data"
-        df = spark.read.parquet(input_path)
+        df = spark.read.option("mergeSchema", "true").parquet(input_path)
         df_customer_gold = ingest_customer_gold(
             df=df,
             customer_days_ago_to_calculate_orders=ConfigGold.CUSTOMER_DAYS_AGO_TO_CALCULATE_ORDERS,
