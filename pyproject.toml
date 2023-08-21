@@ -11,6 +11,7 @@ python = "^3.9"
 pyspark = "3.2.0"
 python-dotenv = "^1.0.0"
 pandas = "^2.0.3"
+pytest = "^7.4.0"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.25.1"
