@@ -4,3 +4,7 @@ class Config:
     BRONZE_DATA_PATH = f"{DATA_PATH}/bronze"
     SILVER_DATA_PATH = f"{DATA_PATH}/silver"
     GOLD_DATA_PATH = f"{DATA_PATH}/gold"
+    COLUMNS_TO_BE_RENAMED = {
+        "ShipDate": "ShipmentDate",
+        "ShipMode": "ShipmentMode",
+    }

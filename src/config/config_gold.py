@@ -1,8 +1,4 @@
 class ConfigGold:
-    ORDERS_COLUMNS_TO_BE_RENAMED = {
-        "ShipDate": "ShipmentDate",
-        "ShipMode": "ShipmentMode",
-    }
     ORDERS_COLUMNS_TO_SELECT = [
         "OrderID",
         "OrderDate",

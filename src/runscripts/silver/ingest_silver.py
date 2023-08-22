@@ -1,9 +1,9 @@
 # %%
 import pyspark.sql.functions as F
 
-from processing.silver.ingest_silver import ingest_silver
 from src.config.config import Config
 from src.config.configure_environment import configure_environment
+from src.processing.silver.ingest_silver import ingest_silver
 from src.utils.logger import get_logger
 from src.utils.utils_functions import check_latest_dataframe_date, write_parquet
 
@@ -23,8 +23,9 @@ if __name__ == "__main__":
         if df.count() == 0:
             logger.info("No data to reload!")
         else:
-            df_silver = ingest_silver(df=df)
-
+            df_silver = ingest_silver(
+                df=df, columns_to_be_renamed=Config.COLUMNS_TO_BE_RENAMED
+            )
             logger.info(
                 f"""
                 Saving dataframe ({df_silver.count()},

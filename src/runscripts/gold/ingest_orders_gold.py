@@ -26,7 +26,6 @@ if __name__ == "__main__":
         else:
             df_orders_gold = ingest_orders_gold(
                 df=df,
-                columns_to_be_renamed=ConfigGold.ORDERS_COLUMNS_TO_BE_RENAMED,
                 columns_to_select=ConfigGold.ORDERS_COLUMNS_TO_SELECT,
             )
 

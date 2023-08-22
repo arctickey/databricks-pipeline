@@ -39,6 +39,11 @@ def ingest_customer_gold(
         df_orders_x_days_ago, on=["CustomerID"], how="left"
     ).join(df_overall_number_of_orders, on=["CustomerID"], how="left")
 
+    columns_to_fill_with_zeros = [
+        column for column in df_customer_gold.columns if "Quantity" in column
+    ]
+    df_customer_gold = df_customer_gold.fillna(0, columns_to_fill_with_zeros)
+
     return df_customer_gold
 
 
@@ -116,8 +121,5 @@ def _calculate_number_of_orders_x_days_ago_per_customer(
             ["CustomerID", f"QuantityOfOrdersLast{number_of_days_ago_to_calculate}Days"]
         )
         .drop_duplicates(subset=["CustomerID"])
-        .fillna(
-            0, subset=[f"QuantityOfOrdersLast{number_of_days_ago_to_calculate}Days"]
-        )
     )
     return df
